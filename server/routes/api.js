@@ -21,6 +21,7 @@ router.get('/weather/:cityName', function (req, res) {
         temperature: Math.floor(data.data.main.feels_like - kalToCel),
         condition: data.data.weather[0].description,
         conditionPic: data.data.weather[0].icon,
+        favorite: false,
       };
       res.send(city);
     })
@@ -32,12 +33,13 @@ router.get('/cities', function (req, res) {
 });
 
 router.post('/city', function (req, res) {
-  const { name, temperature, condition, conditionPic } = req.body;
+  const { name, temperature, condition, conditionPic, favorite } = req.body;
   const city = new City({
     name,
     temperature,
     condition,
     conditionPic,
+    favorite,
   });
   city.save().then((s) => res.send(s));
 });
