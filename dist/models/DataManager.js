@@ -1,31 +1,38 @@
 export class DataManager {
   constructor() {
     this._data = {
-      cities: [],
+      citiesWeather: [],
     };
   }
 
-  getCity = async (cityName) => {
+  findCityIndexByName(name) {
+    const i = this._data.citiesWeather.findIndex((city) => city.name === name);
+    return i;
+  }
+
+  getCityWeather = async (cityName) => {
     let city = await $.get(`/weather/${cityName}`);
-    this._data.cities.push(city);
+    this._data.citiesWeather.push(city);
   };
 
-  getFavorites = async () => {
+  getFavoritesFromDB = async () => {
     let cities = await $.get('/cities');
-    cities.forEach((city) => this._data.cities.push(city));
+    cities.forEach((city) => this._data.citiesWeather.push(city));
   };
 
-  addToFavorites = async (cityObj) => {
-    let city = await $.post('/city', cityObj);
-    this._data.cities.push(city);
+  addToFavorites = (cityName) => {
+    const i = findCityIndexByName(cityName);
+    this._data.citiesWeather[i].favorite = true;
+    const cityObj = this._data.citiesWeather[i];
+    $.post('/cities', cityObj);
   };
 
-  removeSpot = async (cityName) => {
-    let city = await $.ajax({
-      url: `/city/:${cityName}`,
+  removeFromFavorites = (cityName) => {
+    $.ajax({
+      url: `/cities/:${cityName}`,
       type: 'DELETE',
     });
-    const i = this._data.cities.findIndex((s) => s._id === id);
-    this._data.userSpots.splice(i, 1);
+    const i = findCityIndexByName(cityName);
+    this._data.citiesWeather[i].favorite = false;
   };
 }

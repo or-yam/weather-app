@@ -4,21 +4,20 @@ const City = require('../model/City');
 
 const router = express.Router();
 
-const getCityWeather = (cityName) => {
-  const apiKey = 'bd21f266154151d21e6ec78724fa391e';
-  return axios.get(
-    `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`
-  );
+const getWeatherFromAPI = (cityName) => {
+  const API_KEY = 'bd21f266154151d21e6ec78724fa391e';
+  const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}`;
+  return axios.get(API_URL);
 };
 
 router.get('/weather/:cityName', function (req, res) {
   const { cityName } = req.params;
-  getCityWeather(cityName)
+  getWeatherFromAPI(cityName)
     .then((data) => {
-      const kalToCel = 273.15;
+      const KAL_TO_CEL = 273.15;
       const city = {
         name: data.data.name,
-        temperature: Math.floor(data.data.main.feels_like - kalToCel),
+        temperature: Math.floor(data.data.main.feels_like - KAL_TO_CEL),
         condition: data.data.weather[0].description,
         conditionPic: data.data.weather[0].icon,
         favorite: false,
@@ -32,7 +31,7 @@ router.get('/cities', function (req, res) {
   City.find({}).exec((err, data) => res.send(data));
 });
 
-router.post('/city', function (req, res) {
+router.post('/cities', function (req, res) {
   const { name, temperature, condition, conditionPic, favorite } = req.body;
   const city = new City({
     name,
@@ -44,7 +43,7 @@ router.post('/city', function (req, res) {
   city.save().then((s) => res.send(s));
 });
 
-router.delete('/city/:cityName', function (req, res) {
+router.delete('/cities/:cityName', function (req, res) {
   const { cityName } = req.params;
   City.findOneAndDelete({ name: cityName }).exec(
     res.send('Removed From Favorites')

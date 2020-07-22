@@ -8,10 +8,10 @@ export class Renderer {
     $('#favorite-container').empty().append(newHTML);
   };
 
-  renderCitiesDisplay = (data) => {
-    const source = $('#forecast-template').html();
+  renderCities = (data) => {
+    const source = $('#weather-template').html();
     const template = Handlebars.compile(source);
     const newHTML = template(data);
-    $('#forecast-container').empty().append(newHTML);
+    $('#weather-container').empty().append(newHTML);
   };
 }
