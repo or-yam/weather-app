@@ -5,39 +5,32 @@ const dataManager = new DataManager();
 const renderer = new Renderer();
 
 const loadPage = async () => {
-  await dataManager.getFavorites();
-  renderer.renderCities(dataManager._data.cities);
-  // renderer.renderFavoritesList(
-  //   dataManager._data.cities.map((city) => {
-  //     if (city.favorite) {
-  //       return city.name;
-  //     }
-  //   })
-  // );
+  await dataManager.getFavoritesFromDB();
+  renderer.renderCities(dataManager._data.citiesWeather);
 };
 
 const searchCity = async (cityName) => {
   await dataManager.getCityWeather(cityName);
-  renderer.renderCities(dataManager._data.cities);
+  renderer.renderCities(dataManager._data.citiesWeather);
 };
 
 const addToFavorites = async (cityName) => {
   await dataManager.addToFavorites(cityName);
-  renderer.renderCities(dataManager._data.cities);
-  // renderer.renderFavoritesList(
-  //   dataManager._data.cities.map((city) => city.name)
-  // );
+  renderer.renderCities(dataManager._data.citiesWeather);
 };
 
 const removeFromFavorites = async (cityName) => {
   await dataManager.removeFromFavorites(cityName);
-  renderer.renderCities(dataManager._data.cities);
-  // renderer.renderFavoritesList(
-  //   dataManager._data.cities.map((city) => city.name)
-  // );
+  renderer.renderCities(dataManager._data.citiesWeather);
 };
 
 loadPage();
-$('#search-btn').on('click', searchCity($('#search-input').val()));
-$('#weather-container').on('click','.add-btn',addToFavorites(this.name));
-$('#weather-container').on('click','.remove-btn',removeFromFavorites(this.name));
+$('#search-btn').on('click', () => {
+  const city = $('#search-input').val();
+  searchCity(city);
+});
+$('#weather-container').on('click', '.favorite', () => {
+  const name = $(this).closest('.city-container').find('.name').html();
+  console.log(name);
+});
+// $('#weather-container').on('click','.remove-btn',removeFromFavorites(this.name));

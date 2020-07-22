@@ -6,7 +6,7 @@ const router = express.Router();
 
 const getWeatherFromAPI = (cityName) => {
   const API_KEY = 'bd21f266154151d21e6ec78724fa391e';
-  const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}`;
+  const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${API_KEY}`;
   return axios.get(API_URL);
 };
 
@@ -14,10 +14,9 @@ router.get('/weather/:cityName', function (req, res) {
   const { cityName } = req.params;
   getWeatherFromAPI(cityName)
     .then((data) => {
-      const KAL_TO_CEL = 273.15;
       const city = {
         name: data.data.name,
-        temperature: Math.floor(data.data.main.feels_like - KAL_TO_CEL),
+        temperature: data.data.main.feels_like,
         condition: data.data.weather[0].description,
         conditionPic: data.data.weather[0].icon,
         favorite: false,
