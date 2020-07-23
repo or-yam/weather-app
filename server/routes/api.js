@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const City = require('../model/City');
+const city = require('../model/City');
 
 const router = express.Router();
 
@@ -49,6 +50,21 @@ router.delete('/cities/:cityName', function (req, res) {
   );
 });
 
-
+router.put('/cities/:cityName', function (req, res) {
+  const { cityName } = req.params;
+  getWeatherFromAPI(cityName).then((data) => {
+    City.findOneAndUpdate(
+      { name: cityName },
+      {
+        $set: {
+          temperature: Math.floor(data.data.main.feels_like),
+          condition: data.data.weather[0].description,
+          conditionPic: data.data.weather[0].icon,
+        },
+      },
+      { new: true },(err,data)=>res.send(data)
+    )
+  });
+});
 
 module.exports = router;

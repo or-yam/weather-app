@@ -43,7 +43,8 @@ $('#weather-container').on('click', '.favorite', function () {
   city.favorite ? removeFromFavorites(name) : addToFavorites(name);
 });
 
-$('#weather-container').on('click','.refresh',function(){
+$('#weather-container').on('click', '.refresh', async function () {
   const name = $(this).closest('.city-container').find('.name').text();
-  
-})
+  await dataManager.updateWeatherToDB(name);
+  renderer.renderCities(dataManager._data.citiesWeather);
+});

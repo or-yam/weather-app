@@ -12,7 +12,9 @@ export class DataManager {
 
   getCityWeather = async (cityName) => {
     let city = await $.get(`/weather/${cityName}`);
-    this._data.citiesWeather.push(city);
+    city.temperature
+      ? this._data.citiesWeather.push(city)
+      : alert('City Was Not Found');
   };
 
   getFavoritesFromDB = async () => {
@@ -34,5 +36,14 @@ export class DataManager {
     });
     const i = this.findCityIndexByName(cityName);
     this._data.citiesWeather[i].favorite = false;
+  };
+
+  updateWeatherToDB = async (cityName) => {
+    let city = await $.ajax({
+      url: `/cities/${cityName}`,
+      type: 'PUT',
+    });
+    const i = this.findCityIndexByName(cityName);
+    this._data.citiesWeather[i] = city;
   };
 }
