@@ -21,6 +21,7 @@ body {
 }
 
 #search-box {
+  border-radius: 2px;
   width: calc(100% - 50px);
   margin: 0 auto;
   display: flex;
@@ -51,12 +52,22 @@ body {
   color: #ffff;
 }
 
+#weather-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .city-container {
   display: grid;
+  width: 90%;
   grid-template-columns: 2fr 1fr;
   background-color: #0e739f;
   margin-top: 15px;
   padding: 10px;
+  font-size: larger;
+  border-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.6) 2px 2px;
 }
 
 .info {
@@ -70,15 +81,29 @@ body {
   justify-content: center;
 }
 
-.favorite{
-    justify-self: center;
+.favorite {
+  justify-self: center;
 }
 
-.fav-btn{
-    background-color: transparent;
-    border: none;
+.fav-btn {
+  color: yellow;
+  background-color: transparent;
+  border: none;
 }
 
-.condition{
-    align-self: flex-end;
+.condition {
+  align-self: flex-start;
+}
+
+.name {
+  font-size: larger;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.refresh:active {
+  animation: spin 4s linear infinite;
 }

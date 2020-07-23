@@ -25,12 +25,25 @@ const removeFromFavorites = async (cityName) => {
 };
 
 loadPage();
-$('#search-btn').on('click', () => {
-  const city = $('#search-input').val();
-  searchCity(city);
+
+$('#search-btn').on('click', function () {
+  const city = $('#search-input').val().toLocaleLowerCase();
+  const isInList = dataManager._data.citiesWeather.some(
+    (cty) => cty.name.toLocaleLowerCase() === city
+  );
+  isInList ? alert('Already In The List') : searchCity(city);
+  $('#search-input').val('');
 });
-$('#weather-container').on('click', '.favorite', () => {
-  const name = $(this).closest('.city-container').find('.name').html();
-  console.log(name);
+
+$('#weather-container').on('click', '.favorite', function () {
+  const name = $(this).closest('.city-container').find('.name').text();
+  const city = dataManager._data.citiesWeather.find(
+    (city) => city.name === name
+  );
+  city.favorite ? removeFromFavorites(name) : addToFavorites(name);
 });
-// $('#weather-container').on('click','.remove-btn',removeFromFavorites(this.name));
+
+$('#weather-container').on('click','.refresh',function(){
+  const name = $(this).closest('.city-container').find('.name').text();
+  
+})

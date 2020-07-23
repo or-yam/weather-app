@@ -21,7 +21,7 @@ export class DataManager {
   };
 
   addToFavorites = (cityName) => {
-    const i = findCityIndexByName(cityName);
+    const i = this.findCityIndexByName(cityName);
     this._data.citiesWeather[i].favorite = true;
     const cityObj = this._data.citiesWeather[i];
     $.post('/cities', cityObj);
@@ -29,10 +29,10 @@ export class DataManager {
 
   removeFromFavorites = (cityName) => {
     $.ajax({
-      url: `/cities/:${cityName}`,
+      url: `/cities/${cityName}`,
       type: 'DELETE',
     });
-    const i = findCityIndexByName(cityName);
+    const i = this.findCityIndexByName(cityName);
     this._data.citiesWeather[i].favorite = false;
   };
 }

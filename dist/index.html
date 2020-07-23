@@ -33,13 +33,14 @@
           <div class="name">{{name}}</div>
           <div class="temp">{{temperature}}&#8451</div>
           <div class="condition">{{condition}}</div>
+          <div class="refresh fas fa-sync-alt"></div>
         </div>
         <div class="icons">
           <div class="condition-icon"><img src="http://openweathermap.org/img/wn/{{conditionPic}}@2x.png" alt=""> </div>
           {{#if favorite}}
-          <div class="favorite"><button class="fav-btn fas fa-star fa-2x"></button></div>
+          <div class="favorite"><button class="fav-btn fas fa-star fa-1x"></button></div>
           {{else}}
-          <div class="favorite"><button class="fav-btn far fa-star fa-2x"></button></div>
+          <div class="favorite"><button class="fav-btn far fa-star fa-1x"></button></div>
           {{/if}}
         </div>
       </div>

@@ -16,7 +16,7 @@ router.get('/weather/:cityName', function (req, res) {
     .then((data) => {
       const city = {
         name: data.data.name,
-        temperature: data.data.main.feels_like,
+        temperature: Math.floor(data.data.main.feels_like),
         condition: data.data.weather[0].description,
         conditionPic: data.data.weather[0].icon,
         favorite: false,
@@ -48,5 +48,7 @@ router.delete('/cities/:cityName', function (req, res) {
     res.send('Removed From Favorites')
   );
 });
+
+
 
 module.exports = router;
