@@ -1,4 +1,10 @@
-/* [#10ABDB, #2CB4DE, #FFFFFF,#0E739F] */
+:root {
+  --main-color: #10abdb;
+  --secondary-color: #2cb4de;
+  --darker-color: #0e739f;
+  --brighter-color: #ffffff;
+  --text-color: #6a6a6a;
+}
 
 * {
   margin: 0;
@@ -7,7 +13,7 @@
   font-family: 'Roboto', sans-serif;
 }
 body {
-  background-color: #10abdb;
+  background-color: var(--main-color);
 }
 
 #nav-box {
@@ -15,7 +21,7 @@ body {
   height: 6em;
   display: flex;
   align-items: center;
-  background-color: #0e739f;
+  background-color: var(--darker-color);
   display: grid;
   grid-template-rows: 2fr 1fr;
 }
@@ -26,8 +32,8 @@ body {
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  background-color: #ffff;
-  color: #6a6a6a;
+  background-color: var(--brighter-color);
+  color: var(--text-color);
   align-items: center;
   padding: 10px;
 }
@@ -49,7 +55,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #ffff;
+  color: var(--brighter-color);
 }
 
 #weather-container {
@@ -62,7 +68,7 @@ body {
   display: grid;
   width: 90%;
   grid-template-columns: 2fr 1fr;
-  background-color: #0e739f;
+  background-color: var(--darker-color);
   margin-top: 15px;
   padding: 10px;
   font-size: larger;
@@ -86,7 +92,7 @@ body {
 }
 
 .fav-btn {
-  color: palevioletred;
+  color: #f1f864;
   background-color: transparent;
   border: none;
 }
@@ -97,4 +103,8 @@ body {
 
 .name {
   font-size: larger;
+}
+
+.refresh {
+  color: var(--secondary-color);
 }
