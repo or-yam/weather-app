@@ -48,3 +48,27 @@ $('#weather-container').on('click', '.refresh', async function () {
   await dataManager.updateWeatherToDB(name);
   renderer.renderCities(dataManager._data.citiesWeather);
 });
+
+const getLocation = () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    alert('Geolocation is not supported by this browser.');
+  }
+};
+const showPosition = (position) => {
+  const location = {
+    lat: position.coords.latitude,
+    lng: position.coords.longitude,
+  };
+  return location;
+};
+
+const getLocationData = async (coordinates) => {
+  await dataManager.getLocationWeather(coordinates);
+  renderer.renderCities(dataManager._data.citiesWeather);
+};
+
+$('#my-location-btn').on('click', function () {
+  console.log(getLocation());
+});

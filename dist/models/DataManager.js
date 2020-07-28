@@ -17,6 +17,11 @@ export class DataManager {
       : alert('City Was Not Found');
   };
 
+  getLocationWeather = async (coordinates) => {
+    let location = await $.get(`/location`, coordinates);
+    this._data.citiesWeather.push(location);
+  };
+
   getFavoritesFromDB = async () => {
     let cities = await $.get('/cities');
     cities.forEach((city) => this._data.citiesWeather.push(city));

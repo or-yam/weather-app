@@ -1,13 +1,15 @@
 const express = require('express');
 const axios = require('axios');
 const City = require('../model/City');
-const city = require('../model/City');
 
 const router = express.Router();
 
-const getWeatherFromAPI = (cityName) => {
+const getWeatherFromAPI = (cityName, lat, lng) => {
   const API_KEY = 'bd21f266154151d21e6ec78724fa391e';
-  const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${API_KEY}`;
+  let API_URL;
+  lat && lng
+    ? (API_URL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`)
+    : (API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${API_KEY}`);
   return axios.get(API_URL);
 };
 
@@ -23,6 +25,22 @@ router.get('/weather/:cityName', function (req, res) {
         favorite: false,
       };
       res.send(city);
+    })
+    .catch((err) => res.send(err));
+});
+
+router.get('/location', function (req, res) {
+  const { lat, lng } = req.body;
+  getWeatherFromAPI(x, lat, lng)
+    .then((data) => {
+      const location = {
+        name: 'Current Location',
+        temperature: Math.floor(data.data.main.feels_like),
+        condition: data.data.weather[0].description,
+        conditionPic: data.data.weather[0].icon,
+        favorite: false,
+      };
+      res.send(location);
     })
     .catch((err) => res.send(err));
 });
@@ -62,8 +80,9 @@ router.put('/cities/:cityName', function (req, res) {
           conditionPic: data.data.weather[0].icon,
         },
       },
-      { new: true },(err,data)=>res.send(data)
-    )
+      { new: true },
+      (err, data) => res.send(data)
+    );
   });
 });
 

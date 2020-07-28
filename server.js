@@ -8,15 +8,15 @@ const port = process.env.PORT || 2053;
 
 const app = express();
 
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/Weather', {
+  useNewUrlParser: true,
+});
+
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', api);
-
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/Weather', {
-  useNewUrlParser: true,
-});
 
 app.listen(port, function () {
   console.log(`Running on port ${port}`);
