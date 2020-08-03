@@ -1,53 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gust In The Wind</title>
+    <link rel="stylesheet" href="styles/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <script src="/jquery/dist/jquery.js"></script>
+    <script src="/handlebars/dist/handlebars.js"></script>
+    <script
+      src="https://kit.fontawesome.com/d146787bb2.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gust In The Wind</title>
-  <link rel="stylesheet" href="styles/style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
-  <script src="/jquery/dist/jquery.js"></script>
-  <script src="/handlebars/dist/handlebars.js"></script>
-  <script src="https://kit.fontawesome.com/d146787bb2.js" crossorigin="anonymous"></script>
-</head>
-
-<body>
-  <div id="nav-box">
-    <div id="search-box">
-      <input id="search-input" type="text" placeholder="Search for a Spot" />
-      <button id="search-btn" class="btn fas fa-search fa-2x"></button>
-      <button id="my-location-btn">find</button>
-    </div>
-    <div id="title-box">
-      <div class="title">Today's Weather</div>
-
-    </div>
-  </div>
-  <div id="weather-container"></div>
-
-  <script id="weather-template" type="text/x-handlebars-template">
-      {{#each this}}
-      <div class="city-container">
-        <div class="info">
-          <div class="name">{{name}}</div>
-          <div class="temp">{{temperature}}&#8451</div>
-          <div class="condition">{{condition}}</div>
-          <div class="refresh fas fa-sync-alt" ></div>
-        </div>
-        <div class="icons">
-          <div class="condition-icon"><img src="http://openweathermap.org/img/wn/{{conditionPic}}@2x.png" alt=""> </div>
-          {{#if favorite}}
-          <div class="favorite"><button class="fav-btn fas fa-star fa-1x"></button></div>
-          {{else}}
-          <div class="favorite"><button class="fav-btn far fa-star fa-1x"></button></div>
-          {{/if}}
-        </div>
+  <body>
+    <div id="nav-box">
+      <div id="search-box">
+        <input id="search-input" type="text" placeholder="Search for a Spot" />
+        <button id="search-btn" class="btn fas fa-search fa-2x"></button>
+        <!-- <button id="my-location-btn">find</button> -->
       </div>
+      <div id="title-box">
+        <div class="title">Today's Weather</div>
+      </div>
+    </div>
+    <div id="weather-container"></div>
+
+
+    <!-- city template -->
+    <script id="weather-template" type="text/x-handlebars-template">
+      {{#each this}}
+        <div class='city-container'>
+          <div class='info'>
+            <div class='name'>
+              {{name}}
+            </div>
+            <div class='temp'>
+              {{temperature}}&#8451
+            </div>
+            <div class='condition'>
+              {{condition}}
+            </div>
+            {{#if favorite}}
+              <div class='refresh fas fa-sync-alt'></div>
+            {{/if}}
+          </div>
+          <div class='icons'>
+            <div class='condition-icon'>
+              <img
+                src="http://openweathermap.org/img/wn/{{conditionPic}}@2x.png"
+                alt=''
+              />
+            </div>
+            {{#if favorite}}
+              <div class='favorite'>
+                <button class='fav-btn fas fa-star fa-1x'></button>
+              </div>
+            {{else}}
+              <div class='favorite'>
+                <button class='fav-btn far fa-star fa-1x'></button>
+              </div>
+            {{/if}}
+          </div>
+        </div>
       {{/each}}
     </script>
 
-  <script src="main.js" type="module"></script>
-</body>
-
+    <script src="main.js" type="module"></script>
+  </body>
 </html>

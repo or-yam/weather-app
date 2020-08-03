@@ -40,6 +40,8 @@ body {
 
 .btn {
   cursor: pointer;
+  background-color: transparent;
+  border: none;
 }
 
 #search-input {

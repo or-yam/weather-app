@@ -49,6 +49,8 @@ $('#weather-container').on('click', '.refresh', async function () {
   renderer.renderCities(dataManager._data.citiesWeather);
 });
 
+
+//--use user location--//
 const getLocation = () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
