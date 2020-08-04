@@ -26,20 +26,29 @@ const removeFromFavorites = async (cityName) => {
 
 loadPage();
 
-$('#search-btn').on('click', function () {
+const onSearchClick = () => {
   const city = $('#search-input').val().toLocaleLowerCase();
   const isInList = dataManager._data.citiesWeather.some(
     (cty) => cty.name.toLocaleLowerCase() === city
   );
   isInList ? alert('Already In The List') : searchCity(city);
   $('#search-input').val('');
+};
+
+$('#search-btn').on('click', onSearchClick);
+
+$('#search-input').on('keypress', (e) => {
+  if (e.which === 13) {
+    onSearchClick();
+  }
 });
 
 $('#weather-container').on('click', '.favorite', function () {
-  const name = $(this).closest('.city-container').find('.name').text();
+  const name = $(this).closest('.city-container').find('.name').text().trim();
   const city = dataManager._data.citiesWeather.find(
     (city) => city.name === name
   );
+
   city.favorite ? removeFromFavorites(name) : addToFavorites(name);
 });
 
@@ -49,8 +58,8 @@ $('#weather-container').on('click', '.refresh', async function () {
   renderer.renderCities(dataManager._data.citiesWeather);
 });
 
-
 //--use user location--//
+/*
 const getLocation = () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
@@ -74,3 +83,4 @@ const getLocationData = async (coordinates) => {
 $('#my-location-btn').on('click', function () {
   console.log(getLocation());
 });
+*/

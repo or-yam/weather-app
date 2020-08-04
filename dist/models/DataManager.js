@@ -13,7 +13,7 @@ export class DataManager {
   getCityWeather = async (cityName) => {
     let city = await $.get(`/weather/${cityName}`);
     city.temperature
-      ? this._data.citiesWeather.push(city)
+      ? this._data.citiesWeather.unshift(city)
       : alert('City Was Not Found');
   };
 
