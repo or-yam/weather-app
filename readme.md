@@ -1,9 +1,9 @@
 # Weather App 🌦
 
-## <p align="center"><img src="https://res.cloudinary.com/dnrxmm7a0/image/upload/v1601205273/projects/weather_ghrkan.jpg" width="120" /></p>
 A full-stack web application that shows the weather around the world.
 the user can look for the weather by city name and add/remove from the favorite list.
 
+## <p align="center"><img src="https://res.cloudinary.com/dnrxmm7a0/image/upload/v1601205273/projects/weather_ghrkan.jpg" width="120" /></p>
 ---
 
 ## [Try It](https://weather-app-on.herokuapp.com/)
