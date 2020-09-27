@@ -35,3 +35,4 @@ the user can look for the weather by city name and add/remove from the favorite 
 - cities name auto complete
 - users db with login
 - better UI for Errors
+- use dotenv

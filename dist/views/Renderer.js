@@ -1,6 +1,4 @@
 export class Renderer {
-  constructor() {}
-
   renderCities = (data) => {
     const source = $('#weather-template').html();
     const template = Handlebars.compile(source);
