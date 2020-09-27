@@ -3,13 +3,15 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const api = require('./server/routes/api');
 const path = require('path');
+require('dotenv').config();
 
-const port = process.env.PORT || 2053;
+const PORT = process.env.PORT || 2053;
 
 const app = express();
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/Weather', {
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
 app.use(express.static(path.join(__dirname, 'dist')));
@@ -18,6 +20,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', api);
 
-app.listen(port, function () {
-  console.log(`Running on port ${port}`);
+app.listen(PORT, function () {
+  console.log(`Running on port ${PORT}`);
 });

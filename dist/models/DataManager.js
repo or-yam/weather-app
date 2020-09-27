@@ -1,13 +1,12 @@
 export class DataManager {
   constructor() {
     this._data = {
-      citiesWeather: [],
+      citiesWeather: [], // remove the object, use just array
     };
   }
 
   findCityIndexByName(name) {
-    const i = this._data.citiesWeather.findIndex((city) => city.name === name);
-    return i;
+    return this._data.citiesWeather.findIndex((city) => city.name === name);
   }
 
   getCityWeather = async (cityName) => {
@@ -24,7 +23,8 @@ export class DataManager {
 
   getFavoritesFromDB = async () => {
     let cities = await $.get('/cities');
-    cities.forEach((city) => this._data.citiesWeather.push(city));
+    this._data.citiesWeather = [...cities]; // it works
+    // cities.forEach((city) => this._data.citiesWeather.push(city));
   };
 
   addToFavorites = (cityName) => {
@@ -38,17 +38,22 @@ export class DataManager {
     $.ajax({
       url: `/cities/${cityName}`,
       type: 'DELETE',
+      success: () => {
+        const i = this.findCityIndexByName(cityName);
+        this._data.citiesWeather[i].favorite = false;
+      },
+      //error handle
     });
-    const i = this.findCityIndexByName(cityName);
-    this._data.citiesWeather[i].favorite = false;
   };
 
   updateWeatherToDB = async (cityName) => {
     let city = await $.ajax({
       url: `/cities/${cityName}`,
       type: 'PUT',
+      //success:
+      //error
     });
-    const i = this.findCityIndexByName(cityName);
-    this._data.citiesWeather[i] = city;
+    const i = this.findCityIndexByName(cityName);// move to outer function
+    this._data.citiesWeather[i] = city;// move to outer function
   };
 }
