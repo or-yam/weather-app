@@ -5,16 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gust In The Wind</title>
     <link rel="stylesheet" href="styles/style.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
     <script src="/jquery/dist/jquery.js"></script>
     <script src="/handlebars/dist/handlebars.js"></script>
-    <script
-      src="https://kit.fontawesome.com/d146787bb2.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/d146787bb2.js" crossorigin="anonymous"></script>
   </head>
 
   <body>
@@ -29,7 +23,6 @@
       </div>
     </div>
     <div id="weather-container"></div>
-
 
     <!-- city template -->
     <script id="weather-template" type="text/x-handlebars-template">
@@ -51,10 +44,7 @@
           </div>
           <div class='icons'>
             <div class='condition-icon'>
-              <img
-                src="http://openweathermap.org/img/wn/{{conditionPic}}@2x.png"
-                alt=''
-              />
+              <img src='http://openweathermap.org/img/wn/{{conditionPic}}@2x.png' alt='' />
             </div>
             {{#if favorite}}
               <div class='favorite'>
@@ -73,5 +63,3 @@
     <script src="main.js" type="module"></script>
   </body>
 </html>
-
-

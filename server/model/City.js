@@ -7,10 +7,9 @@ const citySchema = new Schema({
   temperature: Number,
   condition: String,
   conditionPic: String,
-  favorite: Boolean,
+  favorite: Boolean
 });
 
 const city = mongoose.model('city', citySchema);
 
 module.exports = city;
-

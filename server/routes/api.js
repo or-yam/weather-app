@@ -3,86 +3,89 @@ const router = express.Router();
 const axios = require('axios');
 const City = require('../model/City');
 
-const getWeatherFromAPI = (cityName, lat, lng) => {
-  let API_URL;
-  lat && lng
-    ? (API_URL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.API_KEY}`) // get weather by location
-    : (API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${process.env.API_KEY}`);
+const BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
+
+const getWeatherFromApi = (cityName, lat, lng) => {
+  const API_URL =
+    lat && lng
+      ? `${BASE_URL}?lat=${lat}&lon=${lon}&appid=${process.env.API_KEY}`
+      : `${BASE_URL}?q=${cityName}&units=metric&appid=${process.env.API_KEY}`;
   return axios.get(API_URL);
 };
 
-//getting city weather from the api by name
-router.get('/weather/:cityName', function (req, res) {
+// weather by city name
+router.get('/weather/:cityName', (req, res) => {
   const { cityName } = req.params;
-  getWeatherFromAPI(cityName)
-    .then((data) => {
+  getWeatherFromApi(cityName)
+    .then(({ data }) => {
       const city = {
-        name: data.data.name,
-        temperature: Math.floor(data.data.main.feels_like),
-        condition: data.data.weather[0].description,
-        conditionPic: data.data.weather[0].icon,
-        favorite: false,
+        name: data.name,
+        temperature: Math.floor(data.main.feels_like),
+        condition: data.weather[0].description,
+        conditionPic: data.weather[0].icon,
+        favorite: false
       };
       res.send(city);
     })
-    .catch((err) => res.send(err));
+    .catch(err => res.send(err));
 });
 
-//getting city weather from the api by lat-lng
-router.get('/location', function (req, res) {
+// weather by lat-lng
+router.get('/location', (req, res) => {
   const { lat, lng } = req.body;
-  getWeatherFromAPI(x, lat, lng)
-    .then((data) => {
+  getWeatherFromApi(_, lat, lng)
+    .then(({ data }) => {
       const location = {
         name: 'Current Location',
-        temperature: Math.floor(data.data.main.feels_like),
-        condition: data.data.weather[0].description,
-        conditionPic: data.data.weather[0].icon,
-        favorite: false,
+        temperature: Math.floor(data.main.feels_like),
+        condition: data.weather[0].description,
+        conditionPic: data.weather[0].icon,
+        favorite: false
       };
       res.send(location);
     })
-    .catch((err) => res.send(err));
+    .catch(err => res.send(err));
 });
 
-//get saved cities from db
-router.get('/cities', function (req, res) {
-  City.find({}).exec((err, data) => res.send(data));
+// get saved cities from db
+router.get('/cities', (req, res) => {
+  City.find({}).exec((err, data) => {
+    if (err) res.send(err);
+    res.send(data);
+  });
 });
 
-//save city to db
-router.post('/cities', function (req, res) {
+// save city to db
+router.post('/cities', (req, res) => {
   const { name, temperature, condition, conditionPic, favorite } = req.body;
   const city = new City({
     name,
     temperature,
     condition,
     conditionPic,
-    favorite,
+    favorite
   });
-  city.save().then((s) => res.send(s));
+  city.save().then(data => res.send(data));
 });
 
-//remove city from db
-router.delete('/cities/:cityName', function (req, res) {
+// remove city from db
+router.delete('/cities/:cityName', (req, res) => {
   const { cityName } = req.params;
-  City.findOneAndDelete({ name: cityName }).exec(
-    res.send('Removed From Favorites')
-  );
+  City.findOneAndDelete({ name: cityName }).exec(res.send('Removed From Favorites'));
 });
 
-//update favorite city weather from api
-router.put('/cities/:cityName', function (req, res) {
+// update favorite city weather from api
+router.put('/cities/:cityName', (req, res) => {
   const { cityName } = req.params;
-  getWeatherFromAPI(cityName).then((data) => {
+  getWeatherFromAPI(cityName).then(data => {
     City.findOneAndUpdate(
       { name: cityName },
       {
         $set: {
           temperature: Math.floor(data.data.main.feels_like),
           condition: data.data.weather[0].description,
-          conditionPic: data.data.weather[0].icon,
-        },
+          conditionPic: data.data.weather[0].icon
+        }
       },
       { new: true },
       (err, data) => res.send(data)

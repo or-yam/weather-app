@@ -16,8 +16,8 @@ mongoose.connect(process.env.MONGO_URI, {
 
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use('/', api);
 
 app.listen(PORT, function () {
