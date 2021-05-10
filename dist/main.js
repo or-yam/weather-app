@@ -6,49 +6,42 @@ const renderer = new Renderer();
 
 const loadPage = async () => {
   await dataManager.getFavoritesFromDB();
-  renderer.renderCities(dataManager._data.citiesWeather);
+  renderer.renderCities(dataManager.citiesWeather);
 };
 
-const searchCity = async (cityName) => {
+const searchCity = async cityName => {
   await dataManager.getCityWeather(cityName);
-  renderer.renderCities(dataManager._data.citiesWeather);
+  renderer.renderCities(dataManager.citiesWeather);
 };
 
-const addToFavorites = async (cityName) => {
+const addToFavorites = async cityName => {
   await dataManager.addToFavorites(cityName);
-  renderer.renderCities(dataManager._data.citiesWeather);
+  renderer.renderCities(dataManager.citiesWeather);
 };
 
-const removeFromFavorites = async (cityName) => {
+const removeFromFavorites = async cityName => {
   await dataManager.removeFromFavorites(cityName);
-  renderer.renderCities(dataManager._data.citiesWeather);
+  renderer.renderCities(dataManager.citiesWeather);
 };
 
 loadPage();
 
 const onSearchClick = () => {
   const city = $('#search-input').val().toLocaleLowerCase();
-  const isInList = dataManager._data.citiesWeather.some(
-    (cty) => cty.name.toLocaleLowerCase() === city
-  );
+  const isInList = dataManager.citiesWeather.some(cty => cty.name.toLocaleLowerCase() === city);
   isInList ? alert('Already In The List') : searchCity(city);
   $('#search-input').val('');
 };
 
 $('#search-btn').on('click', onSearchClick);
 
-$('#search-input').on('keypress', (e) => {
-  if (e.which === 13) {
-    onSearchClick();
-  }
+$('#search-input').on('keypress', e => {
+  if (e.key === 13) onSearchClick();
 });
 
 $('#weather-container').on('click', '.favorite', function () {
   const name = $(this).closest('.city-container').find('.name').text().trim();
-  const city = dataManager._data.citiesWeather.find(
-    (city) => city.name === name
-  );
-
+  const city = dataManager._data.citiesWeather.find(city => city.name === name);
   city.favorite ? removeFromFavorites(name) : addToFavorites(name);
 });
 
