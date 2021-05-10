@@ -21,10 +21,9 @@ export class DataManager {
   };
 
   addToFavorites = cityName => {
-    const index = this.findCity(cityName);
-    this.citiesWeather[index].favorite = true;
-    const cityObj = this.citiesWeather[index];
-    $.post('/cities', cityObj);
+    const city = this.findCity(cityName);
+    city.favorite = true;
+    $.post('/cities', city);
   };
 
   removeFromFavorites = cityName => {
@@ -32,8 +31,8 @@ export class DataManager {
       url: `/cities/${cityName}`,
       type: 'DELETE',
       success: () => {
-        const index = this.findCity(cityName);
-        this.citiesWeather[index].favorite = false;
+        const city = this.findCity(cityName);
+        city.favorite = false;
       },
       error: (req, status, error) => {
         console.log(error);
@@ -42,7 +41,7 @@ export class DataManager {
   };
 
   updateWeatherToDB = async cityName => {
-    const city = await $.ajax({
+    await $.ajax({
       url: `/cities/${cityName}`,
       type: 'PUT',
       success: async () => {
