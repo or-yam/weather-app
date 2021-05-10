@@ -41,14 +41,14 @@ $('#search-input').on('keypress', e => {
 
 $('#weather-container').on('click', '.favorite', function () {
   const name = $(this).closest('.city-container').find('.name').text().trim();
-  const city = dataManager._data.citiesWeather.find(city => city.name === name);
+  const city = dataManager.citiesWeather.find(city => city.name === name);
   city.favorite ? removeFromFavorites(name) : addToFavorites(name);
 });
 
 $('#weather-container').on('click', '.refresh', async function () {
   const name = $(this).closest('.city-container').find('.name').text();
   await dataManager.updateWeatherToDB(name);
-  renderer.renderCities(dataManager._data.citiesWeather);
+  renderer.renderCities(dataManager.citiesWeather);
 });
 
 //--use user location--//
